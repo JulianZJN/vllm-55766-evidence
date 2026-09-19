@@ -1,0 +1,19 @@
+# The step that answers the #47123 resume question (work item C.2).
+# Build: main 71fc70d3 + the #47123 gpu_model_runner.py hunks. 'fud' is the live
+# return value of _compute_force_uniform_decode for that step ('absent' would mean
+# the hunks were not applied). owned= elided for width.
+# Config: --num-gpu-blocks-override 84, --max-num-seqs 8, 4 filler requests of 6528
+# tokens (max_tokens 2400) + a victim of 7*816+5 = 5717 tokens submitted last.
+# vllm:num_preemptions_total moved by 5 during this run.
+
+FBW step=4512 META mode=PIECEWISE uniform=False ntok=17/18 nreq=3/3 reqs=['52d9a3', '0eaf20', '3118b2'] sched=[6, 6, 5] k=[5, 5, 0] nacc_cpu=[6, 4, 1] resumed=['3118b2'] nout=[811, 5, 0] ctx=[False, False, True] nctx=1 fud=False ncomp=[7338, 6532, 5712] owned=<elided> gid=0 npf=1 ndec=0 nspec=2 nspectok=12 nactual=17 ssi=[[66, 62, 42, 33, 59, 35], [21, 61, 55, 26, 31, 9]] nsi=[71] nacc=[6, 4] sqsl=[0, 6, 12] nsqsl=[0, 5] mask=[True, True, False] init(blk,nacc,ssm_finite,conv_finite)=None
+FBW step=4909 META mode=FULL uniform=True ntok=12/12 nreq=2/2 reqs=['52d9a3', '0eaf20'] sched=[6, 6] k=[5, 5] nacc_cpu=[2, 2] resumed=[] nout=[2397, 1593] ctx=[False, False] nctx=0 fud=None ncomp=[8924, 8120] owned=<elided> gid=0 npf=0 ndec=0 nspec=2 nspectok=12 nactual=12 ssi=[[42, 33, 59, 35, 80, 4], [61, 55, 26, 31, 9, 54]] nsi=None nacc=[2, 2] sqsl=[0, 6, 12] nsqsl=None mask=[True, True] init(blk,nacc,ssm_finite,conv_finite)=None
+FBW step=4910 META mode=FULL uniform=True ntok=12/12 nreq=2/2 reqs=['0eaf20', '3118b2'] sched=[6, 6] k=[5, 0] nacc_cpu=[6, 1] resumed=['3118b2'] nout=[1599, 1] ctx=[False, False] nctx=0 fud=None ncomp=[8126, 5712] owned=<elided> gid=0 npf=1 ndec=0 nspec=1 nspectok=6 nactual=12 ssi=[[61, 55, 26, 31, 9, 54]] nsi=[58] nacc=[6] sqsl=[0, 6] nsqsl=[0, 6] mask=[True, False] init(blk,nacc,ssm_finite,conv_finite)=None
+FBW step=4911 META mode=FULL uniform=True ntok=12/12 nreq=2/2 reqs=['0eaf20', '3118b2'] sched=[6, 6] k=[5, 5] nacc_cpu=[2, 1] resumed=[] nout=[1601, 2] ctx=[False, False] nctx=0 fud=None ncomp=[8128, 5718] owned=<elided> gid=0 npf=0 ndec=0 nspec=2 nspectok=12 nactual=12 ssi=[[61, 55, 26, 31, 9, 54], [58, 21, 2, 8, 11, 18]] nsi=None nacc=[2, 1] sqsl=[0, 6, 12] nsqsl=None mask=[True, True] init(blk,nacc,ssm_finite,conv_finite)=None
+
+# MATCHED CONTROL, same trace, same 6-token recompute tail, opposite guard outcome:
+# step 6412 is a request preempted DURING its own prefill, so num_output_tokens == 0,
+# is_context_phase is True, the guard returns False and the step runs PIECEWISE.
+# The only difference from step 4910 is whether the request had produced a token.
+
+FBW step=6412 META mode=PIECEWISE uniform=False ntok=12/12 nreq=2/2 reqs=['684374', '51e627'] sched=[6, 6] k=[5, 0] nacc_cpu=[2, 1] resumed=['51e627'] nout=[1593, 0] ctx=[False, True] nctx=1 fud=False ncomp=[8120, 5712] owned=<elided> gid=0 npf=1 ndec=0 nspec=1 nspectok=6 nactual=12 ssi=[[54, 60, 11, 18, 80, 4]] nsi=[46] nacc=[2] sqsl=[0, 6] nsqsl=[0, 6] mask=[True, False] init(blk,nacc,ssm_finite,conv_finite)=None

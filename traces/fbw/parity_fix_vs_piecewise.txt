@@ -1,0 +1,8 @@
+seed=0 plen=16326 max=200 FULLfix_len=200 PIECEWISE_len=200 identical=True first_divergence_at=none (FULLfix[-1]=- vs PIECEWISE[-1]=-)
+seed=1 plen=16326 max=200 FULLfix_len=200 PIECEWISE_len=200 identical=True first_divergence_at=none (FULLfix[-1]=- vs PIECEWISE[-1]=-)
+seed=2 plen=16326 max=200 FULLfix_len=200 PIECEWISE_len=200 identical=False first_divergence_at=82 (FULLfix[82]=3312 vs PIECEWISE[82]=2374)
+seed=2 plen=16326 max=200 FULLfix_len=200 PIECEWISE_len=200 identical=False first_divergence_at=82 (FULLfix[82]=3312 vs PIECEWISE[82]=2374)
+seed=3 plen=16326 max=200 FULLfix_len=200 PIECEWISE_len=200 identical=True first_divergence_at=none (FULLfix[-1]=- vs PIECEWISE[-1]=-)
+seed=4 plen=16326 max=200 FULLfix_len=200 PIECEWISE_len=200 identical=True first_divergence_at=none (FULLfix[-1]=- vs PIECEWISE[-1]=-)
+seed=2 plen=16326 max=200 PW_a_len=200 PW_b_len=200 identical=True first_divergence_at=none (PW_a[-1]=- vs PW_b[-1]=-)
+seed=2 plen=16326 max=200 FULLfix_a_len=200 FULLfix_b_len=200 identical=True first_divergence_at=none (FULLfix_a[-1]=- vs FULLfix_b[-1]=-)

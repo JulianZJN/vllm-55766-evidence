@@ -1,0 +1,4 @@
+11:37:00 FBW_FULL seed=0 plen=16326 content=natural temp=0.0 -> clean corrupted+0 drafts+51 accepts+302 out='ree fact ist char\\\\ree f'
+11:37:11 FBW_FULL seed=1 plen=16326 content=natural temp=0.0 -> NAN corrupted+1 drafts+35 accepts+328 out='!!!!!!!!!!!!!!!!!!!!!!!!'
+11:37:22 FBW_FULL seed=2 plen=16326 content=natural temp=0.0 -> NAN corrupted+1 drafts+35 accepts+328 out='!!!!!!!!!!!!!!!!!!!!!!!!'
+WL_DONE

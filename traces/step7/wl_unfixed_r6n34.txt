@@ -1,0 +1,10 @@
+unfixed r=6 N=34 seed=0 A len=27750 len%grid=6 out=300 corrupted+0 nonfinite_lp=False drafts+52 prefix_hit_tokens+0 text='|state istree ch'
+unfixed r=6 N=34 seed=0 B len=30050 len%grid=674 out=64 corrupted+0 nonfinite_lp=False drafts+12 prefix_hit_tokens+27744 text=' Property\\\\ree f'
+unfixed r=6 N=34 seed=0 Bsalt len=30050 len%grid=674 out=64 corrupted+0 nonfinite_lp=False drafts+12 prefix_hit_tokens+0 text=' Property\\\\ree f'
+unfixed r=6 N=34 seed=1 A len=27750 len%grid=6 HTTP400 corrupted+1 prefix_hit_tokens+0 {"error":{"message":"Out of range float values are not JSON compliant: nan","type":"BadRequestError","param":null,"code"
+unfixed r=6 N=34 seed=1 B len=29750 len%grid=374 HTTP400 corrupted+1 prefix_hit_tokens+27744 {"error":{"message":"Out of range float values are not JSON compliant: nan","type":"BadRequestError","param":null,"code"
+unfixed r=6 N=34 seed=1 Bsalt len=29750 len%grid=374 out=64 corrupted+0 nonfinite_lp=False drafts+16 prefix_hit_tokens+0 text='\\\\ree fact|ree f'
+unfixed r=6 N=34 seed=2 A len=27750 len%grid=6 HTTP400 corrupted+1 prefix_hit_tokens+0 {"error":{"message":"Out of range float values are not JSON compliant: nan","type":"BadRequestError","param":null,"code"
+unfixed r=6 N=34 seed=2 B len=29750 len%grid=374 HTTP400 corrupted+1 prefix_hit_tokens+27744 {"error":{"message":"Out of range float values are not JSON compliant: nan","type":"BadRequestError","param":null,"code"
+unfixed r=6 N=34 seed=2 Bsalt len=29750 len%grid=374 out=64 corrupted+0 nonfinite_lp=False drafts+15 prefix_hit_tokens+0 text=' Property\\\\ree f'
+STEP7_DONE

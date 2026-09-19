@@ -1,0 +1,14 @@
+# Software versions on the node that produced every GPU result in this pack.
+Python            3.12.14 (main, Aug 14 2026, 15:34:45) [Clang 22.1.3]
+vLLM (main arm)   0.29.0.dev0   source commit 71fc70d3ae1df53300a23ec69f6d97b7207a109f
+vLLM (v0.28 arm)  0.28.0        source commit 2cf0a6915ce544dc493a0990f2ea38d81601128a
+torch (main arm)  2.13.0+cu130  (torch.version.cuda = 13.0, cudnn 92000)
+torch (v028 arm)  2.13.0+cu129
+CUDA toolkit      /usr/local/cuda-13.1 on PATH
+NVIDIA driver     590.48.01
+
+Both vLLM builds are editable installs of a codeload tarball of the exact
+commit, built with VLLM_USE_PRECOMPILED=1 against the matching precompiled
+wheel commit. Both changes under test (#47123's runner hunks and the
+env-guarded FBW instrumentation) are Python-only, so the compiled kernels are
+identical between the "unfixed" and "fixed" arms.

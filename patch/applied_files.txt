@@ -1,0 +1,21 @@
+PR #47123, head read: 41edfaf77e3b4765a43d58f7cd81445aa481b83d
+Files in that PR diff (pr_47123_reference.diff):
+  vllm/v1/worker/gpu_model_runner.py            <- APPLIED to the "fixed" arm
+  tests/v1/worker/test_gpu_model_runner.py      <- run once, then reverted;
+                                                   not part of the serving build
+
+Base for the "fixed" arm: main 71fc70d3ae1df53300a23ec69f6d97b7207a109f
+(plus the env-guarded FBW hooks, which is why the applied diff carries one
+extra import line relative to the PR diff).
+
+Applying the runner hunks to 71fc70d3 required offsets -3 / -59 / -62 / -62
+lines and fuzz 2 on the import hunk. The resulting _compute_force_uniform_decode
+body and the two call-site hunks are identical to the PR's.
+
+sha256 of the diff actually applied (pr47123_applied_to_71fc70d3.diff, before
+the path placeholders in its header were substituted):
+  36aee0d16a0324377c490b9ff4e79d597a034d275139d71e4f3a3f525244b65c
+sha256 of pr_47123_reference.diff:
+  b577ab88c4983d148ccda6a19030200fc81453b42f0deabbe8a83439b1f5c3a5
+sha256 of the runner-only diff as stored on the node (pr47123_runner.diff):
+  545a46b0eda0187d52b70ff3bace1cc585d1ab76c6ff0a36e0678e4a381942ff

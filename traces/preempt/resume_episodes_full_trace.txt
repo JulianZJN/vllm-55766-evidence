@@ -1,0 +1,77 @@
+
+=== resume episode: req=5f224c first step=4
+  step=4      sched=1632   k=0  mode=NONE       uniform=False nout=0      ctx=True  nctx=1   fud=False ncomp=0       nreq=4
+  step=5      sched=4896   k=0  mode=NONE       uniform=False nout=0      ctx=True  nctx=1   fud=False ncomp=1632    nreq=3
+
+=== resume episode: req=5f224c first step=405
+  step=405    sched=4896   k=0  mode=NONE       uniform=False nout=1      ctx=False nctx=1   fud=False ncomp=1632    nreq=4
+  step=406    sched=1      k=0  mode=PIECEWISE  uniform=False nout=1      ctx=False nctx=0   fud=None  ncomp=6528    nreq=2
+
+=== resume episode: req=353633 first step=407
+  step=407    sched=3264   k=0  mode=NONE       uniform=False nout=0      ctx=True  nctx=1   fud=False ncomp=0       nreq=4
+
+=== resume episode: req=353633 first step=602
+  step=602    sched=3264   k=0  mode=NONE       uniform=False nout=0      ctx=True  nctx=2   fud=False ncomp=3264    nreq=4
+  step=603    sched=6      k=5  mode=FULL       uniform=True  nout=1      ctx=False nctx=0   fud=None  ncomp=6528    nreq=2
+
+=== resume episode: req=02565b first step=604
+  step=604    sched=4896   k=0  mode=NONE       uniform=False nout=0      ctx=True  nctx=1   fud=False ncomp=0       nreq=4
+
+=== resume episode: req=02565b first step=1002
+  step=1002   sched=816    k=0  mode=NONE       uniform=False nout=0      ctx=True  nctx=1   fud=False ncomp=4896    nreq=3
+  step=1003   sched=5      k=0  mode=PIECEWISE  uniform=False nout=0      ctx=True  nctx=1   fud=False ncomp=5712    nreq=2
+  step=1004   sched=6      k=5  mode=FULL       uniform=True  nout=1      ctx=False nctx=0   fud=None  ncomp=5717    nreq=2
+
+=== resume episode: req=fe4c96 first step=1508
+  step=1508   sched=5712   k=0  mode=NONE       uniform=False nout=0      ctx=True  nctx=1   fud=False ncomp=816     nreq=4
+
+=== resume episode: req=fe4c96 first step=1908
+  step=1908   sched=5712   k=0  mode=NONE       uniform=False nout=1      ctx=False nctx=1   fud=False ncomp=816     nreq=4
+  step=1909   sched=1      k=0  mode=PIECEWISE  uniform=False nout=1      ctx=False nctx=0   fud=None  ncomp=6528    nreq=2
+
+=== resume episode: req=d334e5 first step=1910
+  step=1910   sched=2448   k=0  mode=NONE       uniform=False nout=0      ctx=True  nctx=1   fud=False ncomp=0       nreq=4
+
+=== resume episode: req=d334e5 first step=2106
+  step=2106   sched=4080   k=0  mode=NONE       uniform=False nout=0      ctx=True  nctx=2   fud=False ncomp=2448    nreq=4
+  step=2107   sched=6      k=5  mode=FULL       uniform=True  nout=1      ctx=False nctx=0   fud=None  ncomp=6528    nreq=2
+
+=== resume episode: req=acb915 first step=2109
+  step=2109   sched=4080   k=0  mode=NONE       uniform=False nout=0      ctx=True  nctx=1   fud=False ncomp=0       nreq=4
+  step=2110   sched=1632   k=0  mode=NONE       uniform=False nout=0      ctx=True  nctx=1   fud=False ncomp=4080    nreq=3
+
+=== resume episode: req=acb915 first step=2505
+  step=2505   sched=5      k=0  mode=PIECEWISE  uniform=False nout=0      ctx=True  nctx=1   fud=False ncomp=5712    nreq=3
+  step=2506   sched=6      k=5  mode=FULL       uniform=True  nout=1      ctx=False nctx=0   fud=None  ncomp=5717    nreq=2
+
+=== resume episode: req=a325e6 first step=3410
+  step=3410   sched=3264   k=0  mode=NONE       uniform=False nout=1      ctx=False nctx=1   fud=False ncomp=3264    nreq=4
+  step=3411   sched=1      k=0  mode=PIECEWISE  uniform=False nout=1      ctx=False nctx=0   fud=None  ncomp=6528    nreq=2
+
+=== resume episode: req=a82ad2 first step=3412
+  step=3412   sched=4896   k=0  mode=NONE       uniform=False nout=0      ctx=True  nctx=1   fud=False ncomp=0       nreq=4
+
+=== resume episode: req=a82ad2 first step=3608
+  step=3608   sched=1632   k=0  mode=NONE       uniform=False nout=0      ctx=True  nctx=2   fud=False ncomp=4896    nreq=4
+  step=3609   sched=6      k=5  mode=FULL       uniform=True  nout=1      ctx=False nctx=0   fud=None  ncomp=6528    nreq=2
+
+=== resume episode: req=f7fa9e first step=4007
+  step=4007   sched=5      k=0  mode=PIECEWISE  uniform=False nout=0      ctx=True  nctx=1   fud=False ncomp=5712    nreq=3
+  step=4008   sched=6      k=5  mode=FULL       uniform=True  nout=1      ctx=False nctx=0   fud=None  ncomp=5717    nreq=2
+
+=== resume episode: req=b1cdc9 first step=4912
+  step=4912   sched=3264   k=0  mode=NONE       uniform=False nout=1      ctx=False nctx=1   fud=False ncomp=3264    nreq=4
+  step=4913   sched=1      k=0  mode=PIECEWISE  uniform=False nout=1      ctx=False nctx=0   fud=None  ncomp=6528    nreq=2
+
+=== resume episode: req=8fb688 first step=4914
+  step=4914   sched=4896   k=0  mode=NONE       uniform=False nout=0      ctx=True  nctx=1   fud=False ncomp=0       nreq=4
+
+=== resume episode: req=8fb688 first step=5110
+  step=5110   sched=1632   k=0  mode=NONE       uniform=False nout=0      ctx=True  nctx=2   fud=False ncomp=4896    nreq=4
+  step=5111   sched=6      k=5  mode=FULL       uniform=True  nout=1      ctx=False nctx=0   fud=None  ncomp=6528    nreq=2
+
+=== resume episode: req=d149a0 first step=5509
+  step=5509   sched=5      k=0  mode=PIECEWISE  uniform=False nout=0      ctx=True  nctx=1   fud=False ncomp=5712    nreq=3
+  step=5510   sched=6      k=5  mode=FULL       uniform=True  nout=1      ctx=False nctx=0   fud=None  ncomp=5717    nreq=2
+
+resume episodes: 20

@@ -1,0 +1,44 @@
+# Verbatim server command lines. <MODEL_DIR> replaces the home directory.
+# Environment common to all of them:
+#   CUDA_VISIBLE_DEVICES=0,1,2,3
+#   VLLM_COMPUTE_NANS_IN_LOGITS=1      (engine counts NaN logits ->
+#                                       vllm:corrupted_requests_total)
+#   VLLM_USE_FLASHINFER_SAMPLER=0
+#   VLLM_DEBUG_GDN_PREFIX_STATE=1      (scheduler geometry/split dump)
+#   VLLM_DEBUG_FBW=1                   (full first-bad-write trace) or
+#   VLLM_DEBUG_FBW=2                   (META lines only; preemption runs)
+#   HF_HUB_OFFLINE=1  TRANSFORMERS_OFFLINE=1
+#   PATH includes the venv and cuda-13.1; caches under a node-local directory
+# cudagraph mode is the engine default for this model: FULL_AND_PIECEWISE.
+
+## (1) baseline: every r-sweep cell, the step-7 A/B cells and the frozen control
+python -m vllm.entrypoints.openai.api_server \
+  --model <MODEL_DIR>/Qwen__Qwen3.8-27B --served-model-name qwen38 \
+  --host 127.0.0.1 --port <PORT> --tensor-parallel-size 4 --trust-remote-code \
+  --dtype bfloat16 --enable-prefix-caching --gpu-memory-utilization 0.88 \
+  --max-model-len 32768 --max-num-batched-tokens 8192 --max-num-seqs 64 \
+  --speculative-config '{"method":"ngram","num_speculative_tokens":5,"prompt_lookup_max":5,"prompt_lookup_min":2}' \
+  --mamba-cache-mode align --no-enable-log-requests
+
+  reports: GPU KV cache size: 168,068 tokens
+           GDN_DBG GEOM cache_config_block_size=816 hash_block_size=816
+             mamba_state_block_size=816 mamba_cache_mode=align need_split=True
+             groups=[('MambaSpec',816) x3, ('FullAttentionSpec',816)]
+
+## (2) preemption/resume runs: same as (1) with
+  --num-gpu-blocks-override 84 --max-num-seqs 8     (VLLM_DEBUG_FBW=2)
+  reports: Overriding num_gpu_blocks=454 with num_gpu_blocks_override=84
+           GPU KV cache size: 44,395 tokens
+           Maximum concurrency for 32,768 tokens per request: 1.35x
+
+## (3) true mamba_cache_mode=none cell: same as (1) with
+  --no-enable-prefix-caching --mamba-cache-mode none
+  reports: GPU KV cache size: 176,613 tokens
+           GDN_DBG GEOM cache_config_block_size=816 hash_block_size=1671168
+             mamba_state_block_size=32768 mamba_cache_mode=none need_split=False
+             groups=[('MambaSpec',32768) x3, ('FullAttentionSpec',816)]
+  NOTE: --mamba-cache-mode none only takes effect because prefix caching is off;
+  with prefix caching on the engine overrides it back to align (README §6).
+
+## PIECEWISE control (referenced from the first-bad-write trace): (1) plus
+  --compilation-config '{"cudagraph_mode":"PIECEWISE"}'

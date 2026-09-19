@@ -1,0 +1,10 @@
+fixed r=6 N=20 seed=0 A len=16326 len%grid=6 out=300 corrupted+0 nonfinite_lp=False drafts+76 prefix_hit_tokens+0 text=' ist charstate i'
+fixed r=6 N=20 seed=0 B len=18626 len%grid=674 out=64 corrupted+0 nonfinite_lp=False drafts+16 prefix_hit_tokens+16320 text=' Property\\\\ree f'
+fixed r=6 N=20 seed=0 Bsalt len=18626 len%grid=674 out=64 corrupted+0 nonfinite_lp=False drafts+16 prefix_hit_tokens+0 text=' Property\\\\ree f'
+fixed r=6 N=20 seed=1 A len=16326 len%grid=6 out=300 corrupted+0 nonfinite_lp=False drafts+76 prefix_hit_tokens+0 text=' char Propertyre'
+fixed r=6 N=20 seed=1 B len=18626 len%grid=674 out=64 corrupted+0 nonfinite_lp=False drafts+11 prefix_hit_tokens+16320 text='\\\\ree fact|ree f'
+fixed r=6 N=20 seed=1 Bsalt len=18626 len%grid=674 out=64 corrupted+0 nonfinite_lp=False drafts+11 prefix_hit_tokens+0 text='\\\\ree fact|ree f'
+fixed r=6 N=20 seed=2 A len=16326 len%grid=6 out=300 corrupted+0 nonfinite_lp=False drafts+74 prefix_hit_tokens+0 text=' ist charstate i'
+fixed r=6 N=20 seed=2 B len=18626 len%grid=674 out=64 corrupted+0 nonfinite_lp=False drafts+16 prefix_hit_tokens+16320 text=' Property\\\\ree f'
+fixed r=6 N=20 seed=2 Bsalt len=18626 len%grid=674 out=64 corrupted+0 nonfinite_lp=False drafts+16 prefix_hit_tokens+0 text=' Property\\\\ree f'
+STEP7_DONE

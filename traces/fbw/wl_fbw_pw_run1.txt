@@ -1,0 +1,8 @@
+11:37:00 FBW_PW seed=0 plen=16326 content=natural temp=0.0 -> clean corrupted+0 drafts+51 accepts+302 out='ree factstate ist char P'
+11:37:12 FBW_PW seed=1 plen=16326 content=natural temp=0.0 -> clean corrupted+0 drafts+49 accepts+302 out=' char Propertyree fact i'
+11:37:23 FBW_PW seed=2 plen=16326 content=natural temp=0.0 -> clean corrupted+0 drafts+35 accepts+334 out='ree factstate ist char P'
+11:37:33 FBW_PW seed=3 plen=16326 content=natural temp=0.0 -> clean corrupted+0 drafts+34 accepts+340 out=' fact| Property\\\\ree fac'
+11:37:45 FBW_PW seed=4 plen=16326 content=natural temp=0.0 -> clean corrupted+0 drafts+38 accepts+328 out='ree factstate ist char P'
+11:37:56 FBW_PW seed=5 plen=16326 content=natural temp=0.0 -> clean corrupted+0 drafts+38 accepts+324 out=' fact| Property\\\\ree fac'
+11:38:07 FBW_PW seed=6 plen=16326 content=natural temp=0.0 -> clean corrupted+0 drafts+45 accepts+310 out='ree factstate ist char P'
+WL_DONE

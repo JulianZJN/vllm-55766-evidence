@@ -1,0 +1,7 @@
+calib2 START preemptions=3 corrupted=0
+calib2 filler1 len=6528 mod=0 out=2400 http=200 corrupted=False
+calib2 filler0 len=6528 mod=0 out=2400 http=200 corrupted=False
+calib2 filler2 len=6528 mod=0 out=2400 http=200 corrupted=False
+calib2 filler3 len=6528 mod=0 out=2400 http=200 corrupted=False
+calib2 victim len=6528 mod=0 out=3000 http=200 corrupted=False
+calib2 DONE preemptions+5 corrupted+0 victim_plen=6528

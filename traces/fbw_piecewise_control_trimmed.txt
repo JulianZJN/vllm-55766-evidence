@@ -1,0 +1,15 @@
+# PIECEWISE control: identical workload, identical allocation, cudagraph_mode=PIECEWISE.
+# Full log: traces/fbw/fbw_pw_run1.log.gz (workload traces/fbw/wl_fbw_pw_run1.txt, 7/7 clean)
+# Compare step 57 with traces/fbw_first_bad_write_trimmed.txt: only the three intended GDN
+# blocks (29/30/31) plus the chunk's own attention KV block (65) change; block 3 is untouched.
+
+FBW step=3 META mode=PIECEWISE uniform=False ntok=6/6 nreq=1/1 reqs=['29c94d'] sched=[6] k=[0] nacc_cpu=[1] owned={'29c94d': {0: [1, 2, 3, 4, 5, 6, 2, 3, 4, 5, 6, 29, 13], 1: [7, 8, 9, 10, 11, 12, 8, 9, 10, 11, 12, 30, 7], 2: [13, 14, 15, 16, 17, 18, 14, 15, 1
+FBW step=3 P2 chg_conv=[3:18682.5,9:1919.24,15:1883.94,42:1745.46] chg_ssm=[3:5711.18,9:103.659,15:116.63] nonfinite_conv=[] nonfinite_ssm=[]
+
+FBW step=57 META mode=PIECEWISE uniform=False ntok=6/6 nreq=1/1 reqs=['bdeb00'] sched=[6] k=[0] nacc_cpu=[1] owned={'bdeb00': {0: [42, 1, 31, 18, 17, 16, 1, 31, 18, 17, 16, 52, 9], 1: [15, 7, 30, 12, 11, 10, 7, 30, 12, 11, 10, 53, 15], 2: [9, 13, 29, 6, 5, 4, 13, 29, 6, 5, 4, 54, 42], 3: [3, 43, 44, 45, 46, 47, 48, 49, 50, 51, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65]}} gid=0 npf=1 ndec=0 nspec=0 nspectok=0 nactual
+FBW step=57 P2 chg_conv=[29:4981.65,30:5136.7,31:22629,65:1829.45] chg_ssm=[29:110.048,30:90.6127,31:5435.68] nonfinite_conv=[] nonfinite_ssm=[]
+
+# And the same step on main + the #47123 runner hunks (traces/fbw/fbw_fullfix_run1.log.gz):
+# the tail step now runs PIECEWISE and its P2 checksums equal the PIECEWISE control's.
+FBW step=57 META mode=PIECEWISE uniform=False ntok=6/6 nreq=1/1 reqs=['bbcd78'] sched=[6] k=[0] nacc_cpu=[1] owned={'bbcd78': {0: [0, 0, 0, 0, 0, 0, 0, 0, 0, 42, 1, 31, 18, 17, 16, 0, 0, 0, 0, 1, 31, 18, 17, 16, 52, 9], 1: [0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 7, 30, 12, 11, 10, 0, 0, 0, 0, 7, 30, 12, 11, 10, 53, 15], 2: [0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 13, 29, 6, 5, 4, 0, 0, 0, 0, 13, 29, 6, 5, 4, 54, 42], 3: [3, 43, 44, 45
+FBW step=57 P2 chg_conv=[29:4981.65,30:5136.7,31:22629,65:1829.45] chg_ssm=[29:110.048,30:90.6127,31:5435.68] nonfinite_conv=[] nonfinite_ssm=[] attn_view_nonfinite_blocks=[1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 29, 30, 31, 42]

@@ -1,0 +1,19 @@
+Source:   ModelScope, repo Qwen/Qwen3.8-27B, branch master
+.mv:      Revision:master,CreatedAt:1786731894   -> 2026-08-14T18:24:54Z
+.msc:     file blob revision for the 18 safetensors shards, config.json,
+          merges.txt, crc32.txt, model.safetensors.index.json, tokenizer files:
+              1098534ab5d7220ea0f4a6b9f07bb03729a79c1d
+          configuration.json:
+              7005cc891d46d4db578d99171526465d50f69b15
+Downloaded 2026-09-19 (18/18 shards). Served read-only from local disk.
+
+sha256:
+191e0af232104ed8b65258cf3fb2b842e288008baca7633c11b82a1ac7203aab  config.json
+77042094076611b69791a610065f28b7013b8c621795fa86ddccc8bac7d1b9df  model.safetensors.index.json
+e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e  generation_config.json
+b11349aafa7cdc6a320767cf7ceb29ed82f7eda5d65e8e0819e76f0ce947bf27  tokenizer_config.json
+
+config.json (head): architectures ["Qwen3_5ForConditionalGeneration"],
+model_type qwen3_5, dtype bfloat16, hidden_size 5120, head_dim 256,
+full_attention_interval 4 (layer_types: three linear_attention per
+full_attention). Served with --dtype bfloat16.

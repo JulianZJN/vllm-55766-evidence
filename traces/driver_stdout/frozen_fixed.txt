@@ -1,0 +1,10 @@
+B-frozen-r6-N20 fixed seed=0 A len=16326 mod=6 corrupted=False http=200 hit=0 sha=cd8d095542a6
+B-frozen-r6-N20 fixed seed=0 B len=18626 mod=674 corrupted=False http=200 hit=16320 sha=739359cc4f67
+B-frozen-r6-N20 fixed seed=0 B-salted len=18626 mod=674 corrupted=False http=200 hit=0 sha=739359cc4f67
+B-frozen-r6-N20 fixed seed=1 A len=16326 mod=6 corrupted=False http=200 hit=0 sha=cbeeac728859
+B-frozen-r6-N20 fixed seed=1 B len=18626 mod=674 corrupted=False http=200 hit=16320 sha=2ef571dd5d69
+B-frozen-r6-N20 fixed seed=1 B-salted len=18626 mod=674 corrupted=False http=200 hit=0 sha=2ef571dd5d69
+B-frozen-r6-N20 fixed seed=2 A len=16326 mod=6 corrupted=False http=200 hit=0 sha=5eb58df28eba
+B-frozen-r6-N20 fixed seed=2 B len=18626 mod=674 corrupted=False http=200 hit=16320 sha=7fa6988b460e
+B-frozen-r6-N20 fixed seed=2 B-salted len=18626 mod=674 corrupted=False http=200 hit=0 sha=7fa6988b460e
+FROZEN_DONE

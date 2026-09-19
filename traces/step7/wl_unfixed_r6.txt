@@ -1,0 +1,10 @@
+unfixed r=6 N=20 seed=0 A len=16326 len%grid=6 out=300 corrupted+0 nonfinite_lp=False drafts+76 prefix_hit_tokens+0 text='|state istree ch'
+unfixed r=6 N=20 seed=0 B len=18626 len%grid=674 out=64 corrupted+0 nonfinite_lp=False drafts+16 prefix_hit_tokens+16320 text=' Property\\\\ree f'
+unfixed r=6 N=20 seed=0 Bsalt len=18626 len%grid=674 out=64 corrupted+0 nonfinite_lp=False drafts+16 prefix_hit_tokens+0 text=' Property\\\\ree f'
+unfixed r=6 N=20 seed=1 A len=16326 HTTP400 {"error":{"message":"Out of range float values are not JSON compliant: nan","type":"BadRequestError","param":null,"code":400}}
+unfixed r=6 N=20 seed=1 B len=18326 HTTP400 {"error":{"message":"Out of range float values are not JSON compliant: nan","type":"BadRequestError","param":null,"code":400}}
+unfixed r=6 N=20 seed=1 Bsalt len=18326 len%grid=374 out=64 corrupted+0 nonfinite_lp=False drafts+14 prefix_hit_tokens+0 text='\\\\ree fact|ree f'
+unfixed r=6 N=20 seed=2 A len=16326 HTTP400 {"error":{"message":"Out of range float values are not JSON compliant: nan","type":"BadRequestError","param":null,"code":400}}
+unfixed r=6 N=20 seed=2 B len=18326 HTTP400 {"error":{"message":"Out of range float values are not JSON compliant: nan","type":"BadRequestError","param":null,"code":400}}
+unfixed r=6 N=20 seed=2 Bsalt len=18326 len%grid=374 out=64 corrupted+0 nonfinite_lp=False drafts+16 prefix_hit_tokens+0 text=' Property\\\\ree f'
+STEP7_DONE
