@@ -86,6 +86,12 @@ def parse_fbw(path):
             mm = re.search(r"\b%s=(\[[^\]]*\]|[^ ]+)" % f, line)
             if mm:
                 d[f] = mm.group(1)
+        if len(d["reqs"]) > 1:
+            raise ValueError(f"{path}: step {s} has multiple requests; serial parser cannot attribute rows")
+        if len(d["sched"]) != len(d["reqs"]) or len(d["k"]) != len(d["reqs"]):
+            raise ValueError(f"{path}: inconsistent per-request metadata at step {s}")
+        if s in steps and steps[s] != d:
+            raise ValueError(f"{path}: conflicting META records for step {s}")
         steps[s] = d
     order, cur = [], None
     for s in sorted(steps):
@@ -122,7 +128,10 @@ def step7_rows():
             continue
         cell = fn[3:-4]                      # e.g. unfixed_r6n34
         fbw = os.path.join(d, "fbw_%s.log.gz" % cell)
-        per_req = parse_fbw(fbw) if os.path.exists(fbw) else []
+        per_req = parse_fbw(fbw)
+        with open(os.path.join(d, fn)) as driver:
+            request_count = sum(bool(WL.match(line.strip())) for line in driver)
+        _require_serial_trace_alignment(per_req, request_count, cell)
         i = 0
         for line in open(os.path.join(d, fn)):
             m = WL.match(line.strip())
@@ -130,10 +139,9 @@ def step7_rows():
                 continue
             g = m.groupdict()
             rest = g["rest"]
-            http = 400 if "HTTP400" in rest else 200
+            http, corrupted, outcome = _parse_step7_outcome(rest)
             corr = re.search(r"corrupted\+(\d+)", rest)
             hit = re.search(r"prefix_hit_tokens\+(\d+)", rest)
-            nonfin = "nonfinite_lp=True" in rest
             fb = per_req[i] if i < len(per_req) else {}
             i += 1
             seed = int(g["seed"])
@@ -153,8 +161,8 @@ def step7_rows():
                 "tail_step_graph_mode": fb.get("tail_mode", ""),
                 "prefill_chunks": "|".join(
                     "%d:%s" % (n, mo) for n, mo, _ in fb.get("prefill_chunks", [])),
-                "corrupted": int(bool(http == 400 or nonfin
-                                      or (corr and int(corr.group(1)) > 0))),
+                "corrupted": int(corrupted),
+                "request_outcome": outcome,
                 "http_status": http,
                 "corrupted_counter_delta": corr.group(1) if corr else "",
                 "prefix_hit_tokens": hit.group(1) if hit else "",
@@ -184,7 +192,9 @@ def frozen_rows(jsonl="frozen_control_requests.jsonl", trace_dir="frozen",
         i = seen.get(b, 0)
         seen[b] = i + 1
         fb = fbw.get(b, [])
-        f = fb[i] if i < len(fb) else {}
+        if i >= len(fb):
+            raise ValueError(f"{jsonl}: no trace request {i} for build {b!r}; check the trace filename mapping")
+        f = fb[i]
         rows.append({
             "cell": rec["cell"], "build": b, "N": rec["N"], "r": rec["r"],
             "seed": rec["seed"], "role": rec["role"],
@@ -195,6 +205,7 @@ def frozen_rows(jsonl="frozen_control_requests.jsonl", trace_dir="frozen",
             "prefill_chunks": "|".join(
                 "%d:%s" % (n, mo) for n, mo, _ in f.get("prefill_chunks", [])),
             "corrupted": int(rec["corrupted"]),
+            "request_outcome": _result_outcome(rec["http_status"], bool(rec["corrupted"])),
             "http_status": rec["http_status"],
             "corrupted_counter_delta": rec.get("corrupted_delta", ""),
             "prefix_hit_tokens": int(rec.get("prefix_hit_tokens_delta", 0)),
@@ -203,6 +214,8 @@ def frozen_rows(jsonl="frozen_control_requests.jsonl", trace_dir="frozen",
             "cache_salt": rec.get("cache_salt", ""),
             "output_sha256": rec.get("output_sha256", ""),
         })
+    for build, count in seen.items():
+        _require_serial_trace_alignment(fbw.get(build, []), count, f"{jsonl}/{build}")
     return rows
 
 
@@ -210,12 +223,14 @@ COLS = ["cell", "build", "N", "r", "seed", "role", "prompt_tokens",
         "prompt_len_mod_grid", "tail_chunk_len", "tail_step_graph_mode",
         "prefill_chunks", "corrupted", "http_status", "corrupted_counter_delta",
         "prefix_hit_tokens", "input_sha256", "input_note", "cache_salt",
-        "output_sha256"]
+        "output_sha256", "request_outcome"]
 
 
 def write(path, rows):
     with open(path, "w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=COLS, extrasaction="ignore")
+        w = csv.DictWriter(
+            fh, fieldnames=COLS, extrasaction="ignore", lineterminator="\n"
+        )
         w.writeheader()
         for r in rows:
             w.writerow(r)
@@ -242,6 +257,42 @@ def main():
             w.writerow([r["cell"], r["build"], r["seed"], r["role"],
                         r["prompt_tokens"], r["input_sha256"], r["input_note"]])
     print("input_hashes.csv written")
+
+
+def _result_outcome(http_status, corrupted):
+    """Keep transport/application failure separate from numerical corruption."""
+    if corrupted:
+        return "corrupted"
+    return "http_error" if http_status >= 400 else "completed"
+
+
+def _parse_step7_outcome(rest):
+    """Parse driver output without treating every HTTP 400 as a NaN incident.
+
+    A non-finite logprob, positive corruption-counter delta, or explicit
+    non-finite value in an HTTP error establishes observed corruption. Other
+    HTTP failures remain visible as http_error, not as successful requests.
+    """
+    match = re.search(r"\bHTTP(\d{3})\b", rest)
+    http_status = int(match.group(1)) if match else 200
+    if not 100 <= http_status <= 599:
+        raise ValueError(f"Invalid HTTP status in driver record: {rest!r}")
+    delta = re.search(r"\bcorrupted\+(\d+)\b", rest)
+    nonfinite = bool(re.search(r"\bnonfinite_lp=True\b", rest))
+    explicit_nonfinite_error = http_status >= 400 and bool(re.search(
+        r"\b(?:nan|inf|infinity|non[-_ ]?finite)\b", rest, flags=re.IGNORECASE,
+    ))
+    corrupted = nonfinite or explicit_nonfinite_error or bool(delta and int(delta.group(1)) > 0)
+    return http_status, corrupted, _result_outcome(http_status, corrupted)
+
+
+def _require_serial_trace_alignment(records, request_count, context):
+    """Never silently shift request-to-trace joins after a missing trace entry."""
+    if len(records) != request_count:
+        raise ValueError(
+            f"{context}: {request_count} driver requests but {len(records)} trace requests; "
+            "cannot join by execution order. Preserve missing data or provide request IDs."
+        )
 
 
 if __name__ == "__main__":

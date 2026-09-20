@@ -1,16 +1,10 @@
-"""Synthetic parser checks, not reproduction of the published GPU experiments."""
-import re
-from pathlib import Path
+"""Synthetic parser checks, not reproductions of the published GPU runs."""
 
 import pytest
 
-exec(
-    (
-        Path(__file__).resolve().parents[1]
-        / "payload"
-        / "outcome_helpers.py"
-    ).read_text(),
-    globals(),
+from scripts.build_tables import (
+    _parse_step7_outcome,
+    _require_serial_trace_alignment,
 )
 
 
@@ -49,13 +43,13 @@ def test_rejects_invalid_http_code():
         _parse_step7_outcome("HTTP999")
 
 
-@pytest.mark.parametrize("n,m", [(2, 3), (3, 2), (0, 3)])
-def test_missing_trace_cannot_silently_shift_rows(n, m):
+@pytest.mark.parametrize("trace_count,request_count", [(2, 3), (3, 2), (0, 3)])
+def test_missing_trace_cannot_silently_shift_rows(trace_count, request_count):
     with pytest.raises(ValueError, match="cannot join by execution order"):
-        _require_serial_trace_alignment([{}] * n, m, "fixture")
+        _require_serial_trace_alignment(
+            [{}] * trace_count, request_count, "fixture"
+        )
 
 
 def test_matching_counts_are_only_an_alignment_precondition():
-    # Matching counts are not proof of request identity. This preserves the
-    # historical serial-order contract; new concurrent traces need full IDs.
     _require_serial_trace_alignment([{}] * 3, 3, "fixture")

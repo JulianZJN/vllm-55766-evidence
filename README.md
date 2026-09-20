@@ -178,6 +178,7 @@ row per request. Columns:
 | `prefill_chunks` | the whole chunk sequence, `len:mode` |
 | `corrupted` | 1 iff `vllm:corrupted_requests_total` moved, or HTTP 400 "…nan…", or a non-finite logprob |
 | `http_status` | 200, or 400 when a NaN logprob made the response non-JSON-encodable |
+| `request_outcome` | `completed`, `http_error`, or `corrupted`; ordinary HTTP failures are not numerical corruption |
 | `prefix_hit_tokens` | `vllm:prefix_cache_hits` delta for this request |
 | `input_sha256` | sha256 of the request's input token-id list (decimal, comma-joined) |
 | `input_note` | whether that input was frozen across arms |
@@ -247,5 +248,6 @@ python scripts/preempt_analyze.py <fbw log>
 ```
 
 `scripts/inject_fbw2.py <worktree>` adds the instrumentation (env-guarded by
-`VLLM_DEBUG_FBW`; `--revert` removes it). `scripts/build_tables.py` regenerates
-everything in `results/` from `traces/`.
+`VLLM_DEBUG_FBW`; `--revert` removes it). `scripts/build_tables.py` reads the
+driver and FBW traces, together with the existing frozen-input JSONL, to produce
+the CSV tables and `input_hashes.csv`. It does not regenerate the raw JSONL.
