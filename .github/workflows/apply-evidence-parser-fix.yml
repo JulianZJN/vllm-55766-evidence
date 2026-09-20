@@ -1,0 +1,49 @@
+name: Apply reviewed evidence-parser fix
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Apply and test locked parser update
+        shell: bash
+        run: |
+          set -euo pipefail
+          python .review-fix/vLLM_Evidence/apply_update.py --repo "$GITHUB_WORKSPACE" --apply
+          python -m py_compile scripts/build_tables.py tests/test_outcomes.py
+          python -m pip install -q pytest
+          python -m pytest -q tests/test_outcomes.py
+          git diff --check
+
+      - name: Replace staging commits with final commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch='main'
+          base='b65298ae599b36f67ccdffc2f707657bc82ffd24'
+          git fetch origin "$branch"
+          remote_head=$(git rev-parse "origin/$branch")
+          git config user.name 'JulianZJN'
+          git config user.email '148066842+JulianZJN@users.noreply.github.com'
+          git reset --soft "$base"
+          rm -rf .review-fix
+          rm -f .github/workflows/apply-evidence-parser-fix.yml
+          find . -type f ! -path './.git/*' ! -path './MANIFEST.sha256' \
+            -printf '%P\0' | LC_ALL=C sort -z | xargs -0 sha256sum > MANIFEST.sha256
+          git add -A
+          git diff --cached --check
+          git commit -s -m 'fix(evidence): separate HTTP failures from corruption' \
+            -m 'Preserve ordinary HTTP errors as a distinct outcome and reject serial trace joins when missing or ambiguous records could shift request attribution.'
+          git push --force-with-lease="refs/heads/$branch:$remote_head" origin "HEAD:$branch"
